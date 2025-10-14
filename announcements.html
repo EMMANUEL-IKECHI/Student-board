@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -85,4 +86,93 @@
     <script src="assets/js/data.js"></script>
     <script src="assets/js/main.js"></script>
 </body>
+=======
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Departmental Announcements & Notices</title>
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/responsive.css">
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <img src="assets/images/logo.png" alt="logo">
+        </div>
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="announcements.html" class="active">Announcements</a></li>
+                <li><a href="timetable.html">Timetables</a></li>
+                <li><a href="events.html">Events Calendar</a></li>
+            </ul>
+        </nav>
+        <a href="admin-login.html" class="admin-link">Admin Login</a>
+        <button class="menu-toggle">☰</button>
+    </header>
+
+    <main class="container">
+        <h1>Departmental Notices & Announcements</h1>
+
+        <section class="search-filter-bar">
+            <input type="text" id="search-input" placeholder="Search by title or keyword...">
+            <select id="filter-category">
+                <option value="all">All Categories</option>
+                <option value="academic">Academic (Results, Exams)</option>
+                <option value="general">General (HOD notices)</option>
+                <option value="admin">Administrative</option>
+            </select>
+            <button onclick="performSearchAndFilter()">Filter Notices</button>
+        </section>
+
+        <section id="full-announcement-list" class="full-list-container">
+            <p id="loading-message">Loading latest announcements...</p>
+
+            <article class="full-notice-card" data-category="academic" data-id="1">
+                <div class="card-header">
+                    <h2>Final Exam Script Collection Schedule</h2>
+                    <span class="category-tag academic">Academic</span>
+                </div>
+                <div class="card-meta">
+                    <span class="date">📅 Posted: 2025-10-14</span>
+                    <span class="author">👤 HOD's Office</span>
+                </div>
+                <div class="card-snippet">
+                    <p>This is a brief summary. The collection of final year exam scripts for 300-level students will commence on November 1st. Please adhere strictly to the schedule posted below...</p>
+                </div>
+                <a href="detail.html?type=announcement&id=1" class="read-more-link">Read Full Notice →</a>
+            </article>
+
+            <article class="full-notice-card" data-category="general" data-id="2">
+                <div class="card-header">
+                    <h2>Mandatory Departmental Town Hall</h2>
+                    <span class="category-tag general">General</span>
+                </div>
+                <div class="card-meta">
+                    <span class="date">📅 Posted: 2025-10-10</span>
+                    <span class="author">👤 CIT Welfare Committee</span>
+                </div>
+                <div class="card-snippet">
+                    <p>All students are required to attend the Town Hall meeting to discuss the new departmental facilities and course registration issues...</p>
+                </div>
+                <a href="detail.html?type=announcement&id=2" class="read-more-link">Read Full Notice →</a>
+            </article>
+
+            <p id="no-results" style="display: none; text-align: center;">No announcements match your search criteria.</p>
+
+        </section>
+        
+        <a href="archive.html" class="view-all-btn archive-link">View Archived Notices →</a>
+    </main>
+
+    <footer>
+        <p>© <span id="currentYear">2025</span> CIT306 Project | Federal University of Technology, Owerri</p>
+    </footer>
+
+    <script src="assets/js/data.js"></script>
+    <script src="assets/js/main.js"></script>
+</body>
+>>>>>>> 0664c2f09863054cc8455999aace4cad5c4a9e29
 </html>
