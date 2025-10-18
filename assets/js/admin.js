@@ -20,7 +20,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // --- STEP 1: Send credentials to the backend ---
         try {
             // Replace '/api/admin/login' with your actual Node.js endpoint
-            const response = await fetch('/api/admin/login', {
+            const response = await fetch('http://localhost:8080/api/admin/login', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -48,6 +48,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 const errorData = await response.json();
                 const errorMessage = errorData.message || 'Invalid username or password.';
                 showStatus(errorMessage, 'error');
+                console.log(response);
             }
 
         } catch (error) {
@@ -62,7 +63,7 @@ document.addEventListener('DOMContentLoaded', () => {
     /** Helper function to show status messages */
     function showStatus(message, type) {
         statusMessage.textContent = message;
-        statusMessage.className = `status-message ${type}`;
+        statusMessage.className = `sntatus-message ${type}`;
         statusMessage.style.display = 'block';
     }
 });

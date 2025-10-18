@@ -3,64 +3,137 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Dashboard - Post Announcement</title>
+    <title>Admin Dashboard - CIT Department</title>
+    <!-- Links to the shared FUTO-branded stylesheet -->
     <link rel="stylesheet" href="assets/css/style.css">
-    </head>
+    <style>
+        /* Specific Dashboard Styles, leveraging FUTO colors from style.css */
+        .admin-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+            margin-bottom: 20px;
+            border-bottom: 2px solid var(--accent-color);
+        }
+        .admin-header h2 {
+            color: var(--primary-color);
+            font-size: 2em;
+        }
+
+        /* Card Grid Layout */
+        .dashboard-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            margin-top: 30px;
+        }
+
+        .dashboard-card {
+            background-color: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            text-decoration: none; /* Make the card a clickable link block */
+            transition: transform 0.3s, box-shadow 0.3s;
+            border-top: 5px solid var(--primary-color);
+        }
+
+        .dashboard-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .card-icon {
+            font-size: 3em;
+            color: var(--accent-color); /* Gold/Yellow Icon */
+            margin-bottom: 15px;
+            display: block;
+        }
+
+        .dashboard-card h3 {
+            color: var(--primary-color);
+            font-size: 1.5em;
+            margin-bottom: 5px;
+        }
+
+        .dashboard-card p {
+            color: #666;
+            font-size: 0.9em;
+        }
+
+        #logout-btn {
+            background-color: #c0392b; /* Admin Red for logout */
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: opacity 0.2s;
+        }
+
+        #logout-btn:hover {
+            opacity: 0.9;
+        }
+
+        /* Auth Guard to match admin-login structure */
+        #auth-guard {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            text-align: center;
+            font-size: 1.2em;
+            color: var(--primary-color);
+        }
+    </style>
+</head>
 <body>
-    <header>
-        <div class="logo">
-            <img src="assets/images/logo.png" alt="logo">
+
+   <!-- Security Guard (Visible until login is confirmed by JS)
+    <div id="auth-guard">
+        <p>Access Denied: Please log in to view the Administration Dashboard.</p>
+        <p><a href="admin-login.html" style="color: #0077b6;">Go to Login Page</a></p>
+    </div> -->
+
+    <main class="container" id="admin-content" style="display: ;">
+        
+        <div class="admin-header">
+            <h2>CIT Admin Panel</h2>
+            <button id="logout-btn">Logout</button>
         </div>
-        <nav>
-            <ul>
-                <li><a href="#" class="active">Post Announcement</a></li>
-                <li><a href="#">Manage Events</a></li>
-                <li><a href="#">View Archive</a></li>
-            </ul>
-        </nav>
-        <button class="logout-btn">Logout</button>
-    </header>
 
-    <main class="container">
-        <h1>Post New Departmental Announcement</h1>
+        <p class="text-lg text-gray-700">Welcome back, Administrator. Select a content area to manage:</p>
 
-        <form id="announcement-form" class="admin-form">
-            <div class="form-group">
-                <label for="title">Announcement Title:</label>
-                <input type="text" id="title" name="title" required>
-            </div>
-
-            <div class="form-group">
-                <label for="category">Category:</label>
-                <select id="category" name="category" required>
-                    <option value="">-- Select Category --</option>
-                    <option value="academic">Academic (Results, Exams)</option>
-                    <option value="event">Event (Calendar updates)</option>
-                    <option value="general">General (HOD notices, Holidays)</option>
-                    <option value="admin">Administrative</option>
-                </select>
-            </div>
-
-            <div class="form-group">
-                <label for="content">Content / Full Details:</label>
-                <textarea id="content" name="content" rows="10" required></textarea>
-            </div>
-
-            <div class="form-group">
-                <label for="expiry-date">Optional: Expiry/Archive Date:</label>
-                <input type="date" id="expiry-date" name="expiry-date">
-                <small>The announcement will automatically move to the archive after this date.</small>
-            </div>
+        <div class="dashboard-cards">
             
-            <button type="submit" class="submit-btn">Publish Announcement</button>
-            <button type="reset" class="reset-btn">Clear Form</button>
-        </form>
+            <a href="admin-announcements.html" class="dashboard-card">
+                <span class="card-icon">📢</span>
+                <h3>Announcements</h3>
+                <p>Create, edit, and delete official department notices.</p>
+            </a>
+
+            <a href="admin-events.html" class="dashboard-card">
+                <span class="card-icon">📅</span>
+                <h3>Events Calendar</h3>
+                <p>Schedule and manage seminars, workshops, and deadlines.</p>
+            </a>
+
+            <!-- This page is next to build -->
+            <a href="admin-timetables.html" class="dashboard-card">
+                <span class="card-icon">🗂️</span>
+                <h3>Timetables</h3>
+                <p>Update and manage links to the current academic schedules.</p>
+            </a>
+        </div>
     </main>
 
-    <footer>
-        <p>Admin Interface | FUTO CIT Dept.</p>
-    </footer>
-
-    <script src="assets/js/admin.js"></script>
+    <!-- Scripts -->
+    <script src="assets/js/main.js"></script>
+    <script>
+        document.getElementById('logout-btn').addEventListener('click', logoutAdmin);
+    </script>
 </body>
 </html>

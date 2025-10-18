@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Archive - CIT Department Notices & Events</title>
+    <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <img src="assets/images/logo.png" alt="logo">
+        </div>
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="announcements.html">Announcements</a></li>
+                <li><a href="timetable.html">Timetables</a></li>
+                <li><a href="events.html">Events Calendar</a></li>
+            </ul>
+        </nav>
+        <a href="admin-login.html" class="admin-link">Admin Login</a>
+        <button class="menu-toggle">☰</button>
+    </header>
+
+    <main class="container">
+        <section class="section-header">
+            <h2>📜 Departmental Archive</h2>
+            <p>Browse past announcements and completed events.</p>
+        </section>
+
+        <section class="filter-bar">
+            <select id="archive-filter-type">
+                <option value="all">All Archived Items</option>
+                <option value="announcement">Past Announcements</option>
+                <option value="event">Completed Events</option>
+            </select>
+            
+            <input type="text" id="archive-search" placeholder="Search archive titles..." aria-label="Search archive titles">
+        </section>
+
+        <section class="content-grid" id="archive-list">
+            <p id="loading-archive">Loading archive data...</p>
+        </section>
+        
+        <div class="pagination-controls">
+            <button id="prev-page" disabled>Previous</button>
+            <span id="page-info">Page 1 of 1</span>
+            <button id="next-page" disabled>Next</button>
+        </div>
+
+    </main>
+
+    <footer>
+        <p>© <span id="currentYear">2025</span> CIT306 Project | Federal University of Technology, Owerri</p>
+    </footer>
+
+    <script src="assets/js/data.js"></script>
+    <script src="assets/js/main.js"></script>
+    <script src="assets/js/archive.js"></script> </body>
+</html>

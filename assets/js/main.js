@@ -1,3 +1,9 @@
+// Use your local port during development
+const API_BASE_URL = 'http://localhost:8080/api'; 
+
+// When deployed to Render, change this to:
+// const API_BASE_URL = 'https://futo-cit-api.onrender.com/api';
+
 document.addEventListener('DOMContentLoaded', () => {
     // 1. Mobile Menu Toggle
     const menuToggle = document.querySelector('.menu-toggle');

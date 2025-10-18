@@ -3,20 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Departmental Timetables</title>
-    <link rel="stylesheet" href="assets/css/style.css">
-    <link rel="stylesheet" href="assets/css/responsive.css">
+    <title>Timetables - CIT Department</title>
+    <link rel="stylesheet" href="assets/css/style.css"> 
 </head>
 <body>
     <header>
         <div class="logo">
-            <h1>FUTO CIT Dept.</h1>
+            <img src="assets/images/logo.png" alt="logo">
         </div>
         <nav>
             <ul>
                 <li><a href="index.html">Home</a></li>
                 <li><a href="announcements.html">Announcements</a></li>
-                <li><a href="timetable.html" class="active">Timetables</a></li>
+                <li class="active"><a href="timetable.html">Timetables</a></li>
                 <li><a href="events.html">Events Calendar</a></li>
             </ul>
         </nav>
@@ -25,77 +24,33 @@
     </header>
 
     <main class="container">
-        <h1>Official Departmental Timetables</h1>
-        <p class="subtitle">Find the latest class schedules and examination rosters for all levels here.</p>
-
-        <section class="search-filter-bar timetable-search">
-            <select id="filter-level">
-                <option value="all">All Levels</option>
-                <option value="100">100 Level</option>
-                <option value="200">200 Level</option>
-                <option value="300">300 Level</option>
-                <option value="400">400 Level</option>
-                <option value="500">500 Level</option>
-            </select>
-            <select id="filter-type">
-                <option value="all">All Types</option>
-                <option value="class">Class Schedule</option>
-                <option value="exam">Examination Roster</option>
-            </select>
-            <button onclick="performTimetableFilter()">Apply Filters</button>
+        <section class="section-header">
+            <h2>⏳ Departmental Timetables</h2>
+            <p>Access the current official academic timetable and view archived versions.</p>
         </section>
 
-        <section id="timetable-list" class="timetable-list-container">
-            <p id="timetable-loading-message">Loading latest schedules...</p>
-
-            <article class="timetable-card" data-level="300" data-type="class">
-                <div class="file-icon">
-                    <span class="material-icons">📄</span>
-                </div>
-                <div class="timetable-info">
-                    <h2>300 Level Second Semester Class Schedule</h2>
-                    <p class="meta">
-                        <span>🗓️ **Type:** Class Schedule</span> |
-                        <span>🏷️ **Level:** 300</span> |
-                        <span>📅 **Last Updated:** 2025-10-01</span>
-                    </p>
-                    <p class="description">The final approved class schedule for all 300-level courses this semester.</p>
-                </div>
-                <div class="timetable-actions">
-                    <a href="assets/files/300-class-timetable.pdf" target="_blank" class="view-btn">View/Download PDF</a>
-                </div>
-            </article>
-
-            <article class="timetable-card" data-level="400" data-type="exam">
-                <div class="file-icon">
-                    <span class="material-icons">📜</span>
-                </div>
-                <div class="timetable-info">
-                    <h2>400 Level First Semester Examination Roster</h2>
-                    <p class="meta">
-                        <span>🗓️ **Type:** Examination Roster</span> |
-                        <span>🏷️ **Level:** 400</span> |
-                        <span>📅 **Last Updated:** 2025-09-15</span>
-                    </p>
-                    <p class="description">Contains dates, times, and halls for all scheduled 400-level examinations.</p>
-                </div>
-                <div class="timetable-actions">
-                    <a href="assets/files/400-exam-timetable.pdf" target="_blank" class="view-btn">View/Download PDF</a>
-                </div>
-            </article>
-            
-            <p id="no-timetable-results" style="display: none; text-align: center; padding: 20px;">No timetables match your filter criteria.</p>
+        <section class="content-box current-item-display">
+            <h3>Current Official Timetable</h3>
+            <div id="current-timetable-section">
+                <p>Loading current timetable...</p>
+            </div>
         </section>
-        
+
+        <section class="content-box archive-list-display">
+            <h3>Timetable Archive</h3>
+            <p>A record of previously posted timetables.</p>
+            <div id="timetable-archive-list" class="archive-list">
+                <p>Loading archived list...</p>
+            </div>
+        </section>
+
     </main>
 
     <footer>
         <p>© <span id="currentYear">2025</span> CIT306 Project | Federal University of Technology, Owerri</p>
     </footer>
 
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <script src="assets/js/data.js"></script>
     <script src="assets/js/main.js"></script>
-    <script src="assets/js/timetable.js"></script>
+    <script src="assets/js/timetable.js"></script> 
 </body>
 </html>

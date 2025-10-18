@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Announcements - Admin</title>
+    <link rel="stylesheet" href="assets/css/style.css">
+    <style>
+        /* Specific Admin Styles for Forms and Tables */
+        .admin-container {
+            padding: 30px 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .admin-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            border-bottom: 2px solid #0077b6;
+            padding-bottom: 15px;
+        }
+        .admin-header h2 {
+            color: #0077b6;
+        }
+        .content-management-form {
+            background-color: #f8f9fa;
+            padding: 25px;
+            border-radius: 10px;
+            margin-bottom: 40px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+        }
+        .content-management-form h3 {
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+        .content-management-form label {
+            display: block;
+            margin-top: 15px;
+            margin-bottom: 5px;
+            font-weight: 600;
+        }
+        .content-management-form input[type="text"],
+        .content-management-form textarea,
+        .content-management-form select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+            font-size: 1em;
+        }
+        .content-management-form textarea {
+            min-height: 150px;
+            resize: vertical;
+        }
+        .form-actions {
+            margin-top: 25px;
+            display: flex;
+            gap: 15px;
+        }
+        .form-actions button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 700;
+            transition: background-color 0.3s;
+        }
+        #save-announcement-btn {
+            background-color: #00b4d8;
+            color: white;
+        }
+        #save-announcement-btn:hover {
+            background-color: #0096c7;
+        }
+        #cancel-edit-btn {
+            background-color: #e9ecef;
+            color: #333;
+        }
+        #cancel-edit-btn:hover {
+            background-color: #d8dee3;
+        }
+        
+        /* Table Styles */
+        .admin-table-container {
+            overflow-x: auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+        }
+        .admin-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .admin-table th, .admin-table td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        .admin-table th {
+            background-color: #f1f1f1;
+            color: #333;
+            font-weight: 700;
+        }
+        .admin-table tr:hover {
+            background-color: #f8f8f8;
+        }
+        .status-tag {
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 0.85em;
+            font-weight: 600;
+        }
+        .status-active { background-color: #d4edda; color: #155724; }
+        .status-archived { background-color: #fff3cd; color: #856404; }
+        .table-actions button {
+            margin-right: 5px;
+            padding: 5px 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        .edit-btn { background-color: #ffc107; color: #333; }
+        .edit-btn:hover { background-color: #e0a800; }
+        .delete-btn { background-color: #dc3545; color: white; }
+        .delete-btn:hover { background-color: #c82333; }
+        .archive-btn { background-color: #17a2b8; color: white; }
+        .archive-btn:hover { background-color: #138496; }
+        
+        /* Message Styles */
+        #admin-message {
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+            font-weight: 600;
+            display: none;
+        }
+        .message-error { background-color: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
+        .message-success { background-color: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
+        .message-info { background-color: #d1ecf1; color: #0c5460; border: 1px solid #bee5eb; }
+    </style>
+</head>
+<body>
+
+    <!-- Security Guard (Redirects if not logged in) -->
+    <div id="auth-guard">
+        <p>Access Denied. Redirecting to login...</p>
+    </div>
+
+    <main class="admin-container" id="admin-content" style="display: none;">
+        
+        <div class="admin-header">
+            <h2>📢 Manage Announcements</h2>
+            <a href="admin-dashboard.html" class="back-link">← Dashboard</a>
+        </div>
+
+        <!-- System Message Display -->
+        <div id="admin-message" role="alert"></div>
+
+        <!-- CREATE/EDIT ANNOUNCEMENT FORM -->
+        <section class="content-management-form">
+            <h3 id="form-title">Create New Announcement</h3>
+            <form id="announcement-form">
+                <input type="hidden" id="announcement-id" value=""> <!-- Used for UPDATING -->
+
+                <label for="title">Title (Max 100 chars)</label>
+                <input type="text" id="title" required maxlength="100">
+
+                <label for="category">Category</label>
+                <select id="category" required>
+                    <option value="general">General</option>
+                    <option value="academic">Academic</option>
+                    <option value="event">Event</option>
+                    <option value="urgent">Urgent</option>
+                </select>
+
+                <label for="snippet">Snippet (Short Summary - Max 250 chars)</label>
+                <input type="text" id="snippet" required maxlength="250">
+
+                <label for="content">Full Content</label>
+                <textarea id="content" required></textarea>
+
+                <label for="is_active">Status</label>
+                <select id="is_active" required>
+                    <option value="true">Active (Visible to Students)</option>
+                    <option value="false">Archive (Hidden)</option>
+                </select>
+
+                <div class="form-actions">
+                    <button type="submit" id="save-announcement-btn">Publish Announcement</button>
+                    <button type="button" id="cancel-edit-btn" style="display: none;">Cancel Edit</button>
+                </div>
+            </form>
+        </section>
+
+        <!-- LIST OF EXISTING ANNOUNCEMENTS -->
+        <section>
+            <h3>Existing Announcements</h3>
+            <p id="loading-announcements">Loading announcements...</p>
+            <div class="admin-table-container">
+                <table class="admin-table">
+                    <thead>
+                        <tr>
+                            <th>Title</th>
+                            <th>Category</th>
+                            <th>Status</th>
+                            <th>Posted</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="announcements-table-body">
+                        <!-- Content injected by admin-announcements.js -->
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </main>
+
+    <!-- Scripts -->
+    <script src="assets/js/main.js"></script>
+    <script src="assets/js/admin-announcements.js"></script>
+</body>
+</html>

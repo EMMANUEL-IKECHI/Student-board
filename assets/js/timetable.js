@@ -1,65 +1,90 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // Check if the timetable list container exists before running
-    if (document.getElementById('timetable-list')) {
-        // Initial render of all timetables
-        renderTimetables(getActiveTimetables());
+    // API_BASE_URL is defined globally in main.js
+    const currentTimetableSection = document.getElementById('current-timetable-section');
+    const archiveListEl = document.getElementById('timetable-archive-list');
+    
+    // 1. Fetch the Current Timetable (Single Item)
+    async function fetchCurrentTimetable() {
+        currentTimetableSection.innerHTML = '<p>Loading current timetable...</p>';
+        try {
+            // CALL: GET /api/timetables/current
+            const response = await fetch(`${API_BASE_URL}/timetables/current`);
+            
+            if (!response.ok) {
+                throw new Error('Failed to load current timetable.');
+            }
+
+            const data = await response.json(); 
+            
+            if (data.timetable_id) {
+                // Render the current timetable display
+                currentTimetableSection.innerHTML = `
+                    <h3>${data.title}</h3>
+                    <p class="meta">Posted: ${new Date(data.date_posted).toLocaleDateString()}</p>
+                    ${data.description ? `<p class="description">${data.description}</p>` : ''}
+                    <div class="timetable-link-box">
+                        <p>Access the official document:</p>
+                        <a href="${data.file_url}" target="_blank" class="download-button">
+                            View/Download Timetable (PDF/Image)
+                        </a>
+                    </div>
+                `;
+            } else {
+                currentTimetableSection.innerHTML = '<p class="empty-message">No current timetable has been posted yet.</p>';
+            }
+
+        } catch (error) {
+            console.error('Error fetching current timetable:', error);
+            currentTimetableSection.innerHTML = '<p class="error-message">Failed to load the current timetable.</p>';
+        }
     }
 
-    // Function to handle the filtering on the timetables page
-    window.performTimetableFilter = function() {
-        const filterLevel = document.getElementById('filter-level').value;
-        const filterType = document.getElementById('filter-type').value;
-        const list = getActiveTimetables();
-        
-        const filteredList = list.filter(timetable => {
-            const levelMatch = filterLevel === 'all' || timetable.level === filterLevel;
-            const typeMatch = filterType === 'all' || timetable.type === filterType;
+    // 2. Fetch Archived Timetables
+    async function fetchArchivedTimetables() {
+        archiveListEl.innerHTML = '<p>Loading archived list...</p>';
+        try {
+            // CALL: GET /api/timetables/archive
+            const response = await fetch(`${API_BASE_URL}/timetables/archive`);
+            
+            if (!response.ok) {
+                throw new Error('Failed to load archived timetables.');
+            }
 
-            return levelMatch && typeMatch;
+            const archivedData = await response.json(); 
+            
+            displayArchivedTimetables(archivedData);
+
+        } catch (error) {
+            console.error('Error fetching archived timetables:', error);
+            archiveListEl.innerHTML = '<p class="error-message">Failed to load the archived timetables list.</p>';
+        }
+    }
+
+    // 3. Render the Archived List
+    function displayArchivedTimetables(items) {
+        archiveListEl.innerHTML = ''; // Clear previous content
+
+        if (items.length === 0) {
+            archiveListEl.innerHTML = '<p class="empty-message">No archived timetables available.</p>';
+            return;
+        }
+
+        const ul = document.createElement('ul');
+        items.forEach(item => {
+            const li = document.createElement('li');
+            // Note: Since the public archive list doesn't expose file_url for security/cleanup, 
+            // the admin must repost the link if they want students to view it.
+            li.innerHTML = `
+                <span class="archive-title">${item.title}</span> 
+                <span class="archive-date">Posted: ${new Date(item.date_posted).toLocaleDateString()}</span>
+                — <span class="status">ARCHIVED</span>
+            `;
+            ul.appendChild(li);
         });
-
-        renderTimetables(filteredList);
+        archiveListEl.appendChild(ul);
     }
+
+    // Initial load
+    fetchCurrentTimetable();
+    fetchArchivedTimetables();
 });
-
-/**
- * Dynamically renders the list of timetables onto the page.
- */
-function renderTimetables(timetables) {
-    const listContainer = document.getElementById('timetable-list');
-    listContainer.innerHTML = ''; // Clear existing content
-
-    const noResults = document.getElementById('no-timetable-results');
-    if (timetables.length === 0) {
-        noResults.style.display = 'block';
-        listContainer.appendChild(noResults);
-        return;
-    } else {
-        noResults.style.display = 'none';
-    }
-
-    timetables.forEach(timetable => {
-        const icon = timetable.type === 'exam' ? '📜' : '📄';
-        
-        const cardHTML = `
-            <article class="timetable-card" data-level="${timetable.level}" data-type="${timetable.type}">
-                <div class="file-icon">
-                    <span class="material-icons">${icon}</span>
-                </div>
-                <div class="timetable-info">
-                    <h2>${timetable.title}</h2>
-                    <p class="meta">
-                        <span>🗓️ **Type:** ${timetable.type.charAt(0).toUpperCase() + timetable.type.slice(1)} Roster</span> |
-                        <span>🏷️ **Level:** ${timetable.level}</span> |
-                        <span>📅 **Last Updated:** ${timetable.updated_date}</span>
-                    </p>
-                    <p class="description">${timetable.description}</p>
-                </div>
-                <div class="timetable-actions">
-                    <a href="${timetable.file_url}" target="_blank" class="view-btn">View/Download PDF</a>
-                </div>
-            </article>
-        `;
-        listContainer.innerHTML += cardHTML;
-    });
-}

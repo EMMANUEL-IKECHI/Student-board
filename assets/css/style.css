@@ -11,7 +11,7 @@
     box-sizing: border-box;
     margin: 0;
     padding: 0;
-    font-family: sans-serif;
+    font-family: 'Inter', sans-serif; /* Using a modern default font */
 }
 
 body {
@@ -40,6 +40,7 @@ header img {
     height: 50px;
 }
 
+/* Desktop Navigation - Hidden on small screens */
 header nav ul {
     list-style: none;
     display: flex;
@@ -69,10 +70,48 @@ header nav ul li a.active {
     text-decoration: none;
     border-radius: 4px;
     font-weight: bold;
+    transition: background-color 0.2s;
+}
+
+.admin-link:hover {
+    background-color: #ffdf40; /* Slightly brighter yellow */
 }
 
 .menu-toggle {
-    display: none; /* Hide on desktop */
+    display: none; /* Hidden by default on desktop */
+    background: none;
+    border: none;
+    color: white;
+    font-size: 1.5em;
+    cursor: pointer;
+}
+
+/* Mobile-specific menu styles (starts hidden) */
+#mobile-menu {
+    display: none;
+    position: absolute;
+    top: 80px; /* Below the header */
+    left: 0;
+    right: 0;
+    background-color: var(--primary-color);
+    padding: 10px 20px;
+    z-index: 100;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+#mobile-menu ul {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+#mobile-menu a {
+    color: white;
+    text-decoration: none;
+    display: block;
+    padding: 10px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 /* --- Search Bar --- */
@@ -90,6 +129,7 @@ header nav ul li a.active {
     padding: 10px;
     border: 1px solid #ccc;
     border-radius: 4px;
+    font-size: 1em; /* Ensure size is legible */
 }
 
 .search-filter-bar input {
@@ -102,6 +142,10 @@ header nav ul li a.active {
     cursor: pointer;
     font-weight: bold;
     border: none;
+    transition: background-color 0.2s;
+}
+.search-filter-bar button:hover {
+    background-color: #ffdf40;
 }
 
 /* --- Info Board (Cards) --- */
@@ -117,6 +161,14 @@ header nav ul li a.active {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     gap: 20px;
+}
+
+/* Dashboard Card Grid - Responsive */
+.dashboard-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 25px;
+    margin-top: 30px;
 }
 
 .notice-card {
@@ -185,7 +237,8 @@ header nav ul li a.active {
 .form-group input[type="text"],
 .form-group input[type="date"],
 .form-group select,
-.form-group textarea {
+.form-group textarea,
+.form-group input[type="url"] {
     width: 100%;
     padding: 10px;
     border: 1px solid #ccc;
@@ -202,6 +255,10 @@ header nav ul li a.active {
     cursor: pointer;
     font-size: 1.1em;
     margin-right: 10px;
+    transition: background-color 0.2s;
+}
+.submit-btn:hover {
+    background-color: var(--secondary-color);
 }
 
 .reset-btn {
@@ -212,7 +269,12 @@ header nav ul li a.active {
     border-radius: 4px;
     cursor: pointer;
     font-size: 1.1em;
+    transition: background-color 0.2s;
 }
+.reset-btn:hover {
+    background-color: #888;
+}
+
 /* --- Announcement Full List Styles --- */
 .full-list-container {
     display: flex;
@@ -237,6 +299,7 @@ header nav ul li a.active {
 .full-notice-card h2 {
     color: var(--primary-color);
     font-size: 1.4em;
+    margin-top: 0;
     margin-bottom: 5px;
 }
 
@@ -290,19 +353,6 @@ header nav ul li a.active {
     grid-template-columns: 1fr; /* Default to single column for mobile */
     gap: 30px;
     margin-top: 20px;
-}
-
-/* Adjust for larger screens */
-@media (min-width: 768px) {
-    .events-content-grid {
-        grid-template-columns: 1fr 1.5fr; /* Calendar takes 1 part, list takes 1.5 parts */
-    }
-}
-
-.calendar-panel {
-    padding: 15px;
-    background-color: #eaf1f7; /* Light blue background for calendar panel */
-    border-radius: 8px;
 }
 
 /* --- Event Card Styles --- */
@@ -401,6 +451,7 @@ header nav ul li a.active {
     font-size: 3em;
     color: var(--accent-color); /* Use accent color for the icon */
     margin-right: 20px;
+    flex-shrink: 0; /* Prevents icon from shrinking on mobile */
 }
 
 .timetable-info {
@@ -426,6 +477,7 @@ header nav ul li a.active {
 
 .timetable-actions {
     margin-left: 20px;
+    flex-shrink: 0;
 }
 
 .view-btn {
@@ -440,27 +492,7 @@ header nav ul li a.active {
 }
 
 .view-btn:hover {
-    background-color: var(--accent-color);
-}
-
-/* Responsive adjustment for small screens */
-@media (max-width: 600px) {
-    .timetable-card {
-        flex-direction: column;
-        align-items: flex-start;
-    }
-    .file-icon {
-        margin-bottom: 10px;
-    }
-    .timetable-actions {
-        margin-top: 15px;
-        margin-left: 0;
-        width: 100%;
-    }
-    .view-btn {
-        display: block;
-        text-align: center;
-    }
+    background-color: var(--secondary-color);
 }
 
 /* --- Admin Login Specific Styles --- */
@@ -524,7 +556,7 @@ header nav ul li a.active {
     padding: 12px;
     border: 1px solid #ddd;
     border-radius: 6px;
-    box-sizing: border-box; /* Includes padding and border in the element's total width and height */
+    box-sizing: border-box; 
     transition: border-color 0.2s;
 }
 
@@ -640,4 +672,105 @@ footer {
     color: white;
     font-size: 0.9em;
     margin-top: 40px;
+}
+
+/* ====================================================== */
+/* RESPONSIVENESS (Media Queries)                */
+/* ====================================================== */
+
+/* --- Mobile / Tablet Optimization (Max 768px) --- */
+@media (max-width: 768px) {
+    
+    .container {
+        margin: 10px auto; /* Less vertical margin on mobile */
+        padding: 0 15px;
+    }
+
+    /* 1. Header & Navigation */
+    header {
+        flex-wrap: wrap;
+    }
+
+    /* Hide desktop nav and show menu button */
+    header nav {
+        display: none;
+        width: 100%; /* Important for mobile menu toggle */
+    }
+
+    .menu-toggle {
+        display: block;
+        order: 1; /* Place toggle button next to logo */
+    }
+
+    .admin-link {
+        order: 2; /* Place admin link next to toggle button */
+        padding: 6px 12px;
+        font-size: 0.9em;
+    }
+
+    /* 2. Search/Filter Bar Stacking */
+    .search-filter-bar {
+        flex-direction: column;
+    }
+
+    .search-filter-bar input,
+    .search-filter-bar select,
+    .search-filter-bar button {
+        width: 100%; /* Full width stacking */
+    }
+
+    /* 3. Card Grids Revert to Single Column */
+    .card-container, 
+    .dashboard-cards {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+
+    /* Events Grid */
+    .events-content-grid {
+        grid-template-columns: 1fr; /* Stacks calendar panel and list */
+    }
+    
+    /* Timetable Card Stacking */
+    .timetable-card {
+        flex-direction: column;
+        align-items: flex-start;
+        text-align: left;
+    }
+    .file-icon {
+        margin-bottom: 10px;
+    }
+    .timetable-actions {
+        margin-top: 15px;
+        margin-left: 0;
+        width: 100%;
+    }
+    .view-btn {
+        display: block;
+        text-align: center;
+        width: 100%;
+    }
+}
+
+/* --- Admin Table Responsiveness (Crucial for admin-announcements) --- */
+@media (max-width: 600px) {
+    /* Apply styles to the table container in admin pages */
+    .table-responsive {
+        width: 100%;
+        overflow-x: auto; /* Allow horizontal scrolling only for the table */
+        -webkit-overflow-scrolling: touch;
+    }
+
+    /* Ensure the table itself is not artificially constrained */
+    table {
+        min-width: 600px; /* Minimum width to prevent content crushing */
+        width: 100%;
+        border-collapse: collapse;
+    }
+    
+    /* Make buttons full width in actions cell on tiny screens */
+    .table-actions button {
+        width: 100%;
+        margin-top: 5px;
+    }
 }

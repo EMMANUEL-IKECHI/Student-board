@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Events - Admin</title>
+    <link rel="stylesheet" href="assets/css/style.css">
+    <style>
+        /* Reusing common admin styles from admin-announcements.html
+           but ensuring they are self-contained for this file */
+        .admin-container {
+            padding: 30px 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .admin-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            border-bottom: 2px solid var(--color-primary, #0077b6);
+            padding-bottom: 15px;
+        }
+        .admin-header h2 {
+            color: var(--color-primary, #0077b6);
+        }
+        .content-management-form {
+            background-color: var(--color-background-light, #f4f7f6);
+            padding: 25px;
+            border-radius: 10px;
+            margin-bottom: 40px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+        }
+        .content-management-form h3 {
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+        .content-management-form label {
+            display: block;
+            margin-top: 15px;
+            margin-bottom: 5px;
+            font-weight: 600;
+        }
+        .content-management-form input[type="text"],
+        .content-management-form textarea,
+        .content-management-form input[type="datetime-local"],
+        .content-management-form select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+            font-size: 1em;
+        }
+        .content-management-form textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        .form-actions {
+            margin-top: 25px;
+            display: flex;
+            gap: 15px;
+        }
+        .form-actions button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 700;
+            transition: background-color 0.3s;
+        }
+        #save-event-btn {
+            background-color: var(--color-secondary, #00b4d8);
+            color: white;
+        }
+        #save-event-btn:hover {
+            background-color: #0096c7;
+        }
+        #cancel-edit-btn {
+            background-color: #e9ecef;
+            color: #333;
+        }
+        #cancel-edit-btn:hover {
+            background-color: #d8dee3;
+        }
+        /* Table Styles */
+        .admin-table-container {
+            overflow-x: auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+        }
+        .admin-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .admin-table th, .admin-table td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        .admin-table th {
+            background-color: #f1f1f1;
+            color: #333;
+            font-weight: 700;
+        }
+        .status-tag {
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 0.85em;
+            font-weight: 600;
+        }
+        .status-upcoming { background-color: #d1ecf1; color: #0c5460; }
+        .status-past { background-color: #fff3cd; color: #856404; }
+        .table-actions button {
+            margin-right: 5px;
+            padding: 5px 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .edit-btn { background-color: #ffc107; color: #333; }
+        .delete-btn { background-color: var(--color-danger, #e63946); color: white; }
+        
+        /* Message Styles */
+        #admin-message {
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+            font-weight: 600;
+            display: none;
+        }
+        .message-error { background-color: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
+        .message-success { background-color: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
+        .message-info { background-color: #d1ecf1; color: #0c5460; border: 1px solid #bee5eb; }
+    </style>
+</head>
+<body>
+
+    <!-- Security Guard -->
+    <div id="auth-guard">
+        <p>Access Denied. Redirecting to login...</p>
+    </div>
+
+    <main class="admin-container" id="admin-content" style="display: none;">
+        
+        <div class="admin-header">
+            <h2>🗓️ Manage Events Calendar</h2>
+            <a href="admin-dashboard.html" class="back-link">← Dashboard</a>
+        </div>
+
+        <!-- System Message Display -->
+        <div id="admin-message" role="alert"></div>
+
+        <!-- CREATE/EDIT EVENT FORM -->
+        <section class="content-management-form">
+            <h3 id="form-title">Create New Event</h3>
+            <form id="event-form">
+                <input type="hidden" id="event-id" value=""> <!-- Used for UPDATING -->
+
+                <label for="title">Event Title</label>
+                <input type="text" id="title" required>
+
+                <label for="location">Location (e.g., Main Auditorium, Zoom Link, Room 301)</label>
+                <input type="text" id="location" required>
+
+                <div class="form-row">
+                    <div>
+                        <label for="start_time">Start Time</label>
+                        <!-- type="datetime-local" provides date and time picker -->
+                        <input type="datetime-local" id="start_time" required>
+                    </div>
+                    <div>
+                        <label for="end_time">End Time (Optional)</label>
+                        <input type="datetime-local" id="end_time">
+                    </div>
+                </div>
+
+                <label for="description">Description</label>
+                <textarea id="description" required></textarea>
+                
+                <label for="category">Category</label>
+                <select id="category" required>
+                    <option value="seminar">Seminar/Workshop</option>
+                    <option value="academic">Academic Deadline/Exam</option>
+                    <option value="social">Social/Departmental</option>
+                    <option value="holiday">Holiday/Break</option>
+                </select>
+
+                <div class="form-actions">
+                    <button type="submit" id="save-event-btn">Publish Event</button>
+                    <button type="button" id="cancel-edit-btn" style="display: none;">Cancel Edit</button>
+                </div>
+            </form>
+        </section>
+
+        <!-- LIST OF EXISTING EVENTS -->
+        <section>
+            <h3>Upcoming and Past Events</h3>
+            <p id="loading-events">Loading events...</p>
+            <div class="admin-table-container">
+                <table class="admin-table">
+                    <thead>
+                        <tr>
+                            <th>Title</th>
+                            <th>Location</th>
+                            <th>Start Date/Time</th>
+                            <th>Category</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="events-table-body">
+                        <!-- Content injected by admin-events.js -->
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </main>
+
+    <!-- Scripts -->
+    <script src="assets/js/main.js"></script>
+    <script src="assets/js/admin-events.js"></script>
+</body>
+</html>
