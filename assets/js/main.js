@@ -1,5 +1,5 @@
 // Use your local port during development
-const API_BASE_URL = 'http://localhost:8080/api'; 
+const API_BASE_URL = 'https://student-board-backend-9f3a.onrender.com'; 
 
 // When deployed to Render, change this to:
 // const API_BASE_URL = 'https://futo-cit-api.onrender.com/api';
