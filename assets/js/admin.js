@@ -67,3 +67,9 @@ document.addEventListener('DOMContentLoaded', () => {
         statusMessage.style.display = 'block';
     }
 });
+
+function mockLogin() {
+    setTimeout(() => {
+        showStatus('Login successful! Redirecting...', 'success');
+    }, 1000);
+}
