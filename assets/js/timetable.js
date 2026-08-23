@@ -5,7 +5,11 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // 1. Fetch the Current Timetable (Single Item)
     async function fetchCurrentTimetable() {
+<<<<<<< HEAD
         currentTimetableSection.innerHTML = '<div class="loading-container"><div class="spinner"></div><p>Loading current timetable...</p></div>';
+=======
+        currentTimetableSection.innerHTML = '<p>Loading current timetable...</p>';
+>>>>>>> 5e48155f277d6e7aaee71554a605c108578a52f3
         try {
             // CALL: GET /api/timetables/current
             const response = await fetch(`${API_BASE_URL}/timetables/current`);
@@ -41,7 +45,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // 2. Fetch Archived Timetables
     async function fetchArchivedTimetables() {
+<<<<<<< HEAD
         archiveListEl.innerHTML = '<div class="loading-container"><div class="spinner"></div><p>Loading archived list...</p></div>';
+=======
+        archiveListEl.innerHTML = '<p>Loading archived list...</p>';
+>>>>>>> 5e48155f277d6e7aaee71554a605c108578a52f3
         try {
             // CALL: GET /api/timetables/archive
             const response = await fetch(`${API_BASE_URL}/timetables/archive`);
