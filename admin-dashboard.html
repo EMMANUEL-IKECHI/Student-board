@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - CIT Department</title>
+    <!-- Links to the shared FUTO-branded stylesheet -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="assets/css/style.css">
+    <style>
+        /* Specific Dashboard Styles, leveraging FUTO colors from style.css */
+        .admin-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+            margin-bottom: 20px;
+            border-bottom: 2px solid var(--accent-color);
+        }
+        .admin-header h2 {
+            color: var(--primary-color);
+            font-size: 2em;
+        }
+
+        /* Card Grid Layout */
+        .dashboard-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            margin-top: 30px;
+        }
+
+        .dashboard-card {
+            background-color: var(--card-bg);
+            padding: 30px;
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-soft);
+            text-align: center;
+            text-decoration: none; /* Make the card a clickable link block */
+            transition: transform 0.3s, box-shadow 0.3s;
+            border-top: 5px solid var(--primary-color);
+        }
+
+        .dashboard-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .card-icon {
+            font-size: 3em;
+            color: var(--accent-color); /* Gold/Yellow Icon */
+            margin-bottom: 15px;
+            display: block;
+        }
+
+        .dashboard-card h3 {
+            color: var(--primary-color);
+            font-size: 1.5em;
+            margin-bottom: 5px;
+        }
+
+        .dashboard-card p {
+            color: #666;
+            font-size: 0.9em;
+        }
+
+        #logout-btn {
+            background-color: #c0392b; /* Admin Red for logout */
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: var(--radius-full);
+            cursor: pointer;
+            font-weight: bold;
+            transition: opacity 0.2s;
+        }
+
+        #logout-btn:hover {
+            opacity: 0.9;
+        }
+
+        /* Auth Guard to match admin-login structure */
+        #auth-guard {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            text-align: center;
+            font-size: 1.2em;
+            color: var(--primary-color);
+        }
+    </style>
+</head>
+<body>
+
+   <!-- Security Guard (Visible until login is confirmed by JS)
+    <div id="auth-guard">
+        <p>Access Denied: Please log in to view the Administration Dashboard.</p>
+        <p><a href="admin-login.html" style="color: #0077b6;">Go to Login Page</a></p>
+    </div> -->
+
+    <main class="container" id="admin-content" style="display: ;">
+        
+        <div class="admin-header">
+            <h2>CIT Admin Panel</h2>
+            <button id="logout-btn">Logout</button>
+        </div>
+
+        <p class="text-lg text-gray-700">Welcome back, Administrator. Select a content area to manage:</p>
+
+        <div class="dashboard-cards">
+            
+            <a href="admin-announcements.html" class="dashboard-card">
+                <span class="card-icon"><i class="fa-solid fa-bullhorn"></i></span>
+                <h3>Announcements</h3>
+                <p>Create, edit, and delete official department notices.</p>
+            </a>
+
+            <a href="admin-events.html" class="dashboard-card">
+                <span class="card-icon"><i class="fa-regular fa-calendar"></i></span>
+                <h3>Events Calendar</h3>
+                <p>Schedule and manage seminars, workshops, and deadlines.</p>
+            </a>
+
+            <!-- This page is next to build -->
+            <a href="admin-timetables.html" class="dashboard-card">
+                <span class="card-icon"><i class="fa-solid fa-folder-open"></i></span>
+                <h3>Timetables</h3>
+                <p>Update and manage links to the current academic schedules.</p>
+            </a>
+        </div>
+    </main>
+
+    <!-- Scripts -->
+    <script src="assets/js/main.js"></script>
+    <script>
+        document.getElementById('logout-btn').addEventListener('click', logoutAdmin);
+    </script>
+</body>
+</html>

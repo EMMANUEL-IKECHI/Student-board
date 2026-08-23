@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Departmental Events Calendar</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/responsive.css">
+    </head>
+<body>
+    <header>
+        <div class="logo">
+            <img src="assets/images/logo.png" alt="logo">
+        </div>
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="announcements.html">Announcements</a></li>
+                <li><a href="timetable.html">Timetables</a></li>
+                <li><a href="events.html" class="active">Events Calendar</a></li>
+            </ul>
+        </nav>
+        <a href="admin-login.html" class="admin-link">Admin Login</a>
+        <button class="menu-toggle"><i class="fa-solid fa-bars"></i></button>
+    </header>
+
+    <main class="container">
+        <h1>Upcoming Departmental Events & Activities</h1>
+
+        <section class="search-filter-bar">
+            <input type="text" id="event-search-input" placeholder="Search for event by name or location...">
+            <button onclick="performEventSearch()">Search Events</button>
+        </section>
+
+        <section class="events-content-grid">
+            
+            <div class="calendar-panel">
+                <h2>Interactive Calendar</h2>
+                <div class="calendar-widget">
+                    <div class="calendar-header">
+                        <button id="prev-month">&lt;</button>
+                        <h3 id="month-year"></h3>
+                        <button id="next-month">&gt;</button>
+                    </div>
+                    <div class="calendar-days">
+                        <div>Sun</div><div>Mon</div><div>Tue</div><div>Wed</div><div>Thu</div><div>Fri</div><div>Sat</div>
+                    </div>
+                    <div id="calendar-grid" class="calendar-grid"></div>
+                </div>
+            </div>
+
+            <div class="upcoming-list-panel">
+                <h2>Next 5 Upcoming Events</h2>
+                <div id="events-list" class="event-card-container">
+                    <div id="event-loading-message" class="loading-container"><div class="spinner"></div><p>Fetching event details...</p></div>
+                    <p id="no-events-message" style="display: none; text-align: center;">No events found.</p>
+                </div>
+                <a href="archive.html#events" class="view-all-btn archive-link">View Past Events Archive →</a>
+            </div>
+            
+        </section>
+    </main>
+
+    <footer>
+        <p>© <span id="currentYear">2025</span> CIT306 Project | Federal University of Technology, Owerri</p>
+    </footer>
+
+    <script src="assets/js/main.js"></script>
+    <script src="assets/js/events.js"></script>
+</body>
+</html>
