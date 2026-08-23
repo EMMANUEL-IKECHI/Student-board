@@ -134,6 +134,11 @@
     <!-- Scripts -->
     <script src="assets/js/main.js"></script>
     <script>
+        function logoutAdmin() {
+            localStorage.removeItem('adminToken');
+            localStorage.removeItem('adminUsername');
+            window.location.href = 'admin-login.html';
+        }
         document.getElementById('logout-btn').addEventListener('click', logoutAdmin);
     </script>
 </body>

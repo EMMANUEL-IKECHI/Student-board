@@ -131,14 +131,20 @@ document.addEventListener('DOMContentLoaded', () => {
         e.preventDefault();
         displayMessage('Saving event...', 'info');
 
+        let event_date = null;
+        let event_time = null;
+        if (startTimeInput.value) {
+            const parts = startTimeInput.value.split('T');
+            event_date = parts[0];
+            event_time = parts[1] || '';
+        }
+
         const eventData = {
             title: titleInput.value,
             location: locationInput.value,
-            // Convert local datetime input value to ISO string for the database
-            start_time: startTimeInput.value ? new Date(startTimeInput.value).toISOString() : null,
-            end_time: endTimeInput.value ? new Date(endTimeInput.value).toISOString() : null,
-            description: descriptionInput.value,
-            category: categoryInput.value,
+            event_date: event_date,
+            event_time: event_time,
+            description: descriptionInput.value
         };
 
         const id = eventIdInput.value;
@@ -182,11 +188,11 @@ document.addEventListener('DOMContentLoaded', () => {
         titleInput.value = item.title;
         locationInput.value = item.location;
         descriptionInput.value = item.description;
-        categoryInput.value = item.category;
+        if(categoryInput) categoryInput.value = item.category || 'general';
         
         // Format ISO date strings back to datetime-local format for the input fields
-        startTimeInput.value = formatToLocalDatetime(item.start_time);
-        endTimeInput.value = formatToLocalDatetime(item.end_time);
+        startTimeInput.value = item.event_date ? (item.event_date.split('T')[0] + 'T' + (item.event_time || '00:00')) : '';
+        if(endTimeInput) endTimeInput.value = ''; // End time not supported by backend schema
         
         // Update UI
         formTitle.textContent = `Editing Event: ${item.title}`;
@@ -241,28 +247,30 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
         
-        // Sort events by start_time (latest first)
-        events.sort((a, b) => new Date(b.start_time) - new Date(a.start_time));
+        // Sort events by event_date (latest first)
+        events.sort((a, b) => new Date(b.event_date) - new Date(a.event_date));
 
         const now = new Date();
 
         events.forEach(item => {
             const row = tableBody.insertRow();
             
+            const eventDateTime = item.event_date ? new Date(item.event_date.split('T')[0] + 'T' + (item.event_time || '00:00')) : new Date();
+
             // Format date for display
-            const startDate = new Date(item.start_time).toLocaleString('en-US', { 
+            const startDate = eventDateTime.toLocaleString('en-US', { 
                 month: 'short', day: 'numeric', year: 'numeric', hour: '2-digit', minute: '2-digit' 
             });
 
             // Determine Status
-            const isPast = new Date(item.start_time) < now;
+            const isPast = eventDateTime < now;
             const statusText = isPast ? 'Past' : 'Upcoming';
             const statusClass = isPast ? 'status-past' : 'status-upcoming';
 
             row.insertCell().textContent = item.title;
             row.insertCell().textContent = item.location;
             row.insertCell().textContent = startDate;
-            row.insertCell().textContent = item.category.charAt(0).toUpperCase() + item.category.slice(1);
+            row.insertCell().textContent = item.category ? item.category.charAt(0).toUpperCase() + item.category.slice(1) : 'General';
             row.insertCell().innerHTML = `<span class="status-tag ${statusClass}">${statusText}</span>`;
             
             // Actions Cell

@@ -137,7 +137,7 @@ document.addEventListener('DOMContentLoaded', () => {
             category: categoryInput.value,
             snippet: snippetInput.value,
             content: contentInput.value,
-            is_active: isActiveInput.value === 'true'
+            status: isActiveInput.value === 'true' ? 'active' : 'archived'
         };
 
         const id = announcementIdInput.value;
@@ -229,23 +229,23 @@ document.addEventListener('DOMContentLoaded', () => {
     // 4. Rendering and Event Listeners
     // -----------------------------------------------------------------
 
-    /**
-     * Renders the list of announcements in the admin table.
-     * @param {Array<object>} announcements 
-     */
     function renderAnnouncementsTable(announcements) {
         tableBody.innerHTML = '';
         loadingAnnouncements.textContent = ''; // Hide loading message
         
-        if (announcements.length === 0) {
-            tableBody.innerHTML = '<tr><td colspan="5">No announcements found.</td></tr>';
+        // Filter out archived announcements so they disappear from the admin view after deletion
+        const activeAnnouncements = announcements.filter(item => item.status === 'active');
+        
+        if (activeAnnouncements.length === 0) {
+            tableBody.innerHTML = '<tr><td colspan="5">No active announcements found.</td></tr>';
             return;
         }
 
-        announcements.forEach(item => {
+        activeAnnouncements.forEach(item => {
+            const is_active = item.status === 'active';
             const row = tableBody.insertRow();
-            const statusText = item.is_active ? 'Active' : 'Archived';
-            const statusClass = item.is_active ? 'status-active' : 'status-archived';
+            const statusText = is_active ? 'Active' : 'Archived';
+            const statusClass = is_active ? 'status-active' : 'status-archived';
 
             row.insertCell().textContent = item.title;
             row.insertCell().textContent = item.category.toUpperCase();
@@ -260,7 +260,10 @@ document.addEventListener('DOMContentLoaded', () => {
             const editBtn = document.createElement('button');
             editBtn.textContent = 'Edit';
             editBtn.className = 'edit-btn';
-            editBtn.addEventListener('click', () => startEdit(item));
+            editBtn.addEventListener('click', () => startEdit({
+                ...item,
+                is_active: is_active
+            }));
             actionsCell.appendChild(editBtn);
 
             // Delete Button
