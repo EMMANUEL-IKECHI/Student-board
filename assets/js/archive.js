@@ -8,11 +8,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // 1. Fetch Combined Archive Data from Backend API
     async function fetchArchive() {
-<<<<<<< HEAD
         archiveList.innerHTML = '<div class="loading-container"><div class="spinner"></div><p>Loading departmental archive...</p></div>';
-=======
-        archiveList.innerHTML = '<p>Loading departmental archive...</p>';
->>>>>>> 5e48155f277d6e7aaee71554a605c108578a52f3
 
         try {
             // CALL: GET /api/archive (Public endpoint that combines archived announcements and events)
@@ -59,11 +55,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         items.forEach(item => {
             const card = document.createElement('article');
-<<<<<<< HEAD
             card.className = 'full-notice-card';
-=======
-            card.className = 'content-card archived';
->>>>>>> 5e48155f277d6e7aaee71554a605c108578a52f3
             
             // Construct the detail link using the original item's ref_id and type
             const detailLink = `detail.html?type=${item.type}&id=${item.ref_id}`; 
@@ -74,7 +66,6 @@ document.addEventListener('DOMContentLoaded', () => {
                              : 'Event Location: N/A';
 
             card.innerHTML = `
-<<<<<<< HEAD
                 <div class="card-header">
                     <h2>${item.title}</h2>
                     <span class="category-tag admin">ARCHIVED | ${item.type.toUpperCase()}</span>
@@ -86,14 +77,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 <div class="card-snippet">
                     <p>This item was archived automatically or manually.</p>
                 </div>
-=======
-                <span class="archived-tag">ARCHIVED | ${item.type.toUpperCase()}</span>
-                <h3>${item.title}</h3>
-                <div class="card-meta">
-                    ${metaInfo} | Date Archived: ${new Date(item.date).toLocaleDateString()}
-                </div>
-                <p>This item was archived automatically or manually.</p>
->>>>>>> 5e48155f277d6e7aaee71554a605c108578a52f3
                 <a href="${detailLink}" class="read-more-link">View Original Record →</a>
             `;
             archiveList.appendChild(card);

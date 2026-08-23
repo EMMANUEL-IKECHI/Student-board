@@ -1,6 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
     // API_BASE_URL is defined in assets/js/main.js
-<<<<<<< HEAD
     const announcementsList = document.getElementById('full-announcement-list');
     const filterCategory = document.getElementById('filter-category');
     const searchInput = document.getElementById('search-input');
@@ -22,17 +21,6 @@ document.addEventListener('DOMContentLoaded', () => {
     async function fetchAnnouncements() {
         if (loadingMessage) loadingMessage.style.display = 'flex';
         if (noResults) noResults.style.display = 'none';
-=======
-    const announcementsList = document.getElementById('announcements-list');
-    const filterCategory = document.getElementById('category-filter');
-    const searchInput = document.getElementById('search-input');
-    
-    let allAnnouncements = []; // Stores the raw data from the API
-
-    // 1. Fetch Data from Backend API
-    async function fetchAnnouncements() {
-        announcementsList.innerHTML = '<p>Loading announcements...</p>';
->>>>>>> 5e48155f277d6e7aaee71554a605c108578a52f3
 
         try {
             // CALL: GET /api/announcements (Public endpoint for active notices)
@@ -49,12 +37,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
         } catch (error) {
             console.error('Error fetching announcements:', error);
-<<<<<<< HEAD
             if (loadingMessage) loadingMessage.style.display = 'none';
             announcementsList.innerHTML += '<p class="error-message">Failed to load announcements. Please check server status.</p>';
-=======
-            announcementsList.innerHTML = '<p class="error-message">Failed to load announcements. Please check server status.</p>';
->>>>>>> 5e48155f277d6e7aaee71554a605c108578a52f3
         }
     }
 
@@ -75,7 +59,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // 3. Render the List to the DOM
     function displayAnnouncements(items) {
-<<<<<<< HEAD
         // Clear previous content but keep the loading/no-results paragraphs by selecting only articles
         const existingArticles = announcementsList.querySelectorAll('article');
         existingArticles.forEach(a => a.remove());
@@ -89,18 +72,10 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         } else {
             if (noResults) noResults.style.display = 'none';
-=======
-        announcementsList.innerHTML = ''; // Clear previous content
-
-        if (items.length === 0) {
-            announcementsList.innerHTML = '<p class="empty-message">No announcements found matching your criteria.</p>';
-            return;
->>>>>>> 5e48155f277d6e7aaee71554a605c108578a52f3
         }
 
         items.forEach(item => {
             const card = document.createElement('article');
-<<<<<<< HEAD
             card.className = 'full-notice-card';
             card.setAttribute('data-category', item.category);
             card.setAttribute('data-id', item.announcement_id);
@@ -121,34 +96,14 @@ document.addEventListener('DOMContentLoaded', () => {
                     <p>${item.snippet}</p>
                 </div>
                 <a href="${detailLink}" class="read-more-link">Read Full Notice →</a>
-=======
-            card.className = 'content-card announcement';
-            
-            // Link to the detail page with the item type and ID from the database
-            const detailLink = `detail.html?type=announcement&id=${item.announcement_id}`; 
-            
-            card.innerHTML = `
-                <span class="category-tag ${item.category}">${item.category.toUpperCase()}</span>
-                <h3>${item.title}</h3>
-                <div class="card-meta">
-                    Date Posted: ${new Date(item.date_posted).toLocaleDateString()}
-                </div>
-                <p>${item.snippet}</p>
-                <a href="${detailLink}" class="read-more-link">Read More →</a>
->>>>>>> 5e48155f277d6e7aaee71554a605c108578a52f3
             `;
             announcementsList.appendChild(card);
         });
     }
 
     // 4. Attach Event Listeners for Filters
-<<<<<<< HEAD
     if (filterCategory) filterCategory.addEventListener('change', handleFilteringAndDisplay);
     if (searchInput) searchInput.addEventListener('input', handleFilteringAndDisplay);
-=======
-    filterCategory.addEventListener('change', handleFilteringAndDisplay);
-    searchInput.addEventListener('input', handleFilteringAndDisplay);
->>>>>>> 5e48155f277d6e7aaee71554a605c108578a52f3
 
     // Initial load of data
     fetchAnnouncements();

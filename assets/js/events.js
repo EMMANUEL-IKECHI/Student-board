@@ -1,21 +1,13 @@
 document.addEventListener('DOMContentLoaded', () => {
     // API_BASE_URL is assumed to be defined globally in main.js (e.g., http://localhost:8080/api)
     const eventsList = document.getElementById('events-list');
-<<<<<<< HEAD
     const searchInput = document.getElementById('event-search-input');
-=======
-    const searchInput = document.getElementById('event-search');
->>>>>>> 5e48155f277d6e7aaee71554a605c108578a52f3
     
     let allEvents = []; // Stores the raw data from the API
 
     // 1. Fetch Data from Backend API
     async function fetchEvents() {
-<<<<<<< HEAD
         if (eventsList) eventsList.innerHTML = '<div class="loading-container"><div class="spinner"></div><p>Loading events calendar...</p></div>';
-=======
-        eventsList.innerHTML = '<p>Loading events calendar...</p>';
->>>>>>> 5e48155f277d6e7aaee71554a605c108578a52f3
 
         try {
             // CALL: GET /api/events (Public endpoint for upcoming events)
@@ -28,30 +20,18 @@ document.addEventListener('DOMContentLoaded', () => {
             allEvents = await response.json(); 
             
             // Display initial searched list
-<<<<<<< HEAD
             handleSearchingAndDisplay();
             renderCalendar(); 
 
         } catch (error) {
             console.error('Error fetching events:', error);
             if (eventsList) eventsList.innerHTML = '<p class="error-message">Failed to load events calendar. Please check server status.</p>';
-=======
-            handleSearchingAndDisplay(); 
-
-        } catch (error) {
-            console.error('Error fetching events:', error);
-            eventsList.innerHTML = '<p class="error-message">Failed to load events calendar. Please check server status.</p>';
->>>>>>> 5e48155f277d6e7aaee71554a605c108578a52f3
         }
     }
 
     // 2. Handle Client-Side Searching
     function handleSearchingAndDisplay() {
-<<<<<<< HEAD
         const searchTerm = searchInput ? searchInput.value.toLowerCase() : '';
-=======
-        const searchTerm = searchInput.value.toLowerCase();
->>>>>>> 5e48155f277d6e7aaee71554a605c108578a52f3
 
         const filteredData = allEvents.filter(item => {
             // Search by title, snippet, or location
@@ -63,17 +43,12 @@ document.addEventListener('DOMContentLoaded', () => {
         displayEvents(filteredData);
     }
 
-<<<<<<< HEAD
     // Expose for the button click in HTML
     window.performEventSearch = handleSearchingAndDisplay;
 
     // 3. Render the Event List to the DOM
     function displayEvents(items) {
         if (!eventsList) return;
-=======
-    // 3. Render the Event List to the DOM
-    function displayEvents(items) {
->>>>>>> 5e48155f277d6e7aaee71554a605c108578a52f3
         eventsList.innerHTML = ''; // Clear previous content
 
         if (items.length === 0) {
@@ -83,7 +58,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
         items.forEach(item => {
             const card = document.createElement('article');
-<<<<<<< HEAD
             card.className = 'event-card';
             
             const dateObj = new Date(item.event_date);
@@ -106,33 +80,12 @@ document.addEventListener('DOMContentLoaded', () => {
                     <p>${item.snippet}</p>
                 </div>
                 <a href="${detailLink}" class="details-link">Event Details →</a>
-=======
-            card.className = 'content-card event';
-            
-            // Format date for better readability
-            const formattedDate = new Date(item.event_date).toLocaleDateString('en-GB', { 
-                weekday: 'short', month: 'short', day: 'numeric' 
-            });
-
-            // Link to the detail page with the item type and ID from the database
-            const detailLink = `detail.html?type=event&id=${item.event_id}`; 
-            
-            card.innerHTML = `
-                <span class="event-date-tag">${formattedDate}</span>
-                <h3>${item.title}</h3>
-                <div class="card-meta">
-                    Time: ${item.event_time || 'N/A'} | Location: ${item.location}
-                </div>
-                <p>${item.snippet}</p>
-                <a href="${detailLink}" class="read-more-link">View Event Details →</a>
->>>>>>> 5e48155f277d6e7aaee71554a605c108578a52f3
             `;
             eventsList.appendChild(card);
         });
     }
 
     // 4. Attach Event Listeners for Search
-<<<<<<< HEAD
     if (searchInput) searchInput.addEventListener('input', handleSearchingAndDisplay);
 
     // Initial load of data
@@ -202,10 +155,3 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
 });
-=======
-    searchInput.addEventListener('input', handleSearchingAndDisplay);
-
-    // Initial load of data
-    fetchEvents();
-});
->>>>>>> 5e48155f277d6e7aaee71554a605c108578a52f3
